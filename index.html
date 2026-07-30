@@ -114,11 +114,13 @@
   .bar span{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));
     transition:width .5s cubic-bezier(.2,.7,.2,1);box-shadow:0 0 14px rgba(232,180,74,.5)}
 
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:15px}
-  .stat{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-  .stat .k{font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted-2)}
-  .stat .v{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,6vw,27px);font-weight:700;line-height:1.1;margin-top:3px;letter-spacing:-.5px}
-  .stat .v small{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:0}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}
+  .stat{background:var(--surface-2);border:1px solid var(--line);border-radius:13px;padding:10px 11px}
+  .stat .k{font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--muted-2);
+    line-height:1.25;min-height:2.5em;display:flex;align-items:flex-start}
+  .stat .v{font-family:'Space Grotesk',sans-serif;font-size:clamp(19px,5.2vw,26px);font-weight:700;
+    line-height:1.1;margin-top:2px;letter-spacing:-.6px}
+  .stat .v small{font-size:.45em;color:var(--muted);font-weight:600;letter-spacing:0;display:block;margin-top:1px}
   .stat.accent .v{color:var(--gold)}
   .stat.pos .v{color:var(--green)}
 
@@ -127,7 +129,7 @@
   .ch{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:4px;flex-wrap:wrap}
   .ch .t{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
   .ch .m{font-size:11px;color:var(--green);font-weight:700}
-  svg.curve{width:100%;height:120px;display:block;overflow:visible}
+  svg.curve{width:100%;height:96px;display:block;overflow:visible}
 
   /* config */
   .config{overflow:hidden}
@@ -166,47 +168,72 @@
   .m-head .t span{color:var(--muted-2);font-weight:600}
   .legend{font-size:10.5px;color:var(--muted-2);font-weight:700}
   .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-  thead th{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted-2);
-    text-align:right;padding:8px 12px;white-space:nowrap;background:var(--surface)}
-  thead th:first-child{text-align:center}
-  thead th:nth-child(2){text-align:left}
-  tbody td{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;text-align:right;
-    padding:11px 12px;border-top:1px solid var(--line);white-space:nowrap}
-  tbody td:first-child{text-align:center;color:var(--muted-2);font-size:12px;font-weight:700}
-  tbody td:nth-child(2){text-align:left;color:var(--text)}
+  table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;table-layout:fixed}
+  thead th{font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--muted-2);
+    text-align:right;padding:7px 10px;white-space:nowrap;background:var(--surface);
+    border-bottom:1px solid var(--line-strong)}
+  thead th:first-child{text-align:left;padding-left:14px}
+  th.c-op{width:16%}
+  th.c-cap{width:24%}
+  th.c-ap{width:20%}
+  th.c-re{width:20%}
+  th.c-di{width:20%}
+
+  tbody td{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;text-align:right;
+    padding:9px 10px;border-top:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  tbody td:first-child{text-align:left;color:var(--gold);font-size:11px;font-weight:800;
+    letter-spacing:.3px;padding-left:14px}
+  tbody td:nth-child(2){color:var(--text);font-weight:700}
   td.aporte{color:var(--muted)}
   td.rend{color:var(--green)}
   td.disp{color:var(--gold)}
+  /* compact vs full number display */
+  .cmp{display:none}
+  tr.op{cursor:pointer}
+  tr.op:hover td{background:rgba(255,255,255,.022)}
+  tr.op.open td{background:rgba(232,180,74,.06)}
   tr.goal td{background:var(--green-soft)}
-  tr.goal td:first-child,tr.goal td:nth-child(2){color:var(--green);font-weight:700}
-  .flag{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;color:var(--green);font-weight:800;
-    text-transform:uppercase;letter-spacing:.5px;margin-left:6px;vertical-align:middle}
-  tr.day td{background:#0c1424;padding:6px 14px;border-top:1px solid var(--line-strong)}
-  .day .d{font-size:10px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted-2);text-align:left;display:block}
+  tr.goal td:first-child,tr.goal td:nth-child(2){color:var(--green);font-weight:800}
+  tr.goal:hover td{background:var(--green-soft)}
+
+  /* detail row */
+  tr.det{display:none}
+  tr.op.open + tr.det{display:table-row}
+  tr.det>td{padding:0;border-top:none;white-space:normal}
+  .det-in{display:grid;grid-template-columns:repeat(2,1fr);gap:9px 12px;
+    padding:11px 14px 13px;background:#0c1424;border-top:1px solid var(--line)}
+  .det-in .di{min-width:0}
+  .det-in .dk{font-family:'Manrope',sans-serif;font-size:9.5px;font-weight:800;letter-spacing:.6px;
+    text-transform:uppercase;color:var(--muted-2);margin-bottom:2px}
+  .det-in .dv{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:700;letter-spacing:-.2px}
+  .det-in .dv.g{color:var(--green)}
+  .det-in .dv.o{color:var(--gold)}
+  .det-in .dv.m{color:var(--muted)}
+
+  .flag{font-size:11px;margin-left:4px;vertical-align:middle}
+  tr.day td{background:#0b1220;padding:5px 14px;border-top:1px solid var(--line-strong)}
+  .day .d{font-size:9.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted-2);text-align:left;display:block}
 
   .foot{text-align:center;font-size:11px;color:var(--muted-2);margin-top:18px;line-height:1.7;font-weight:600;padding:0 8px}
   .foot b{color:var(--muted)}
 
-  /* ---------- RESPONSIVE: cards on small phones ---------- */
-  @media (max-width:539px){
-    thead{display:none}
-    table,tbody,tr,td{display:block;width:100%}
-    tbody tr{border-top:1px solid var(--line);padding:11px 14px 12px;display:grid;
-      grid-template-columns:1fr 1fr;gap:7px 10px;align-items:baseline}
-    tbody tr.goal{background:var(--green-soft)}
-    tbody td{border:none;padding:0;text-align:right;font-size:14px;position:relative}
-    tbody td::before{content:attr(data-l);display:block;font-family:'Manrope',sans-serif;font-size:9.5px;
-      font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted-2);text-align:left;margin-bottom:1px}
-    tbody td:first-child{grid-column:1;text-align:left;font-size:11px;letter-spacing:.5px;
-      font-weight:800;color:var(--gold);text-transform:uppercase}
-    tbody td:first-child::before{display:none}
-    tbody td:nth-child(2){grid-column:2;text-align:right;font-size:16px;font-weight:700}
-    tbody td:nth-child(2)::before{text-align:right}
-    tbody tr.day{display:block;padding:7px 14px}
-    tbody tr.day td{padding:0}
-    .m-head{padding:12px 14px 8px}
+  /* ---------- RESPONSIVE: compact single-line rows on phones ---------- */
+  @media (max-width:599px){
+    .cmp{display:inline}
+    .full{display:none}
+    thead th{font-size:9px;padding:6px 6px;letter-spacing:.3px}
+    thead th:first-child{padding-left:12px}
+    tbody td{font-size:12.5px;padding:8px 6px}
+    tbody td:first-child{font-size:10.5px;padding-left:12px}
+    th.c-op{width:15%} th.c-cap{width:23%} th.c-ap{width:21%} th.c-re{width:20%} th.c-di{width:21%}
+    .det-in{padding:10px 12px 12px;gap:8px 10px}
+    .m-head{padding:12px 14px 7px}
   }
+  @media (max-width:359px){
+    tbody td{font-size:11.5px;padding:8px 4px}
+    thead th{font-size:8.5px;padding:6px 4px}
+  }
+
 
   /* ---------- RESPONSIVE: two columns on desktop ---------- */
   @media (min-width:900px){
@@ -308,15 +335,15 @@
 
       <div class="stats">
         <div class="stat accent">
-          <div class="k">Operaciones a la meta</div>
+          <div class="k">Operaciones</div>
           <div class="v num" id="statOps">0</div>
         </div>
         <div class="stat">
-          <div class="k">Días estimados</div>
+          <div class="k">Días</div>
           <div class="v num" id="statDays">0</div>
         </div>
         <div class="stat pos">
-          <div class="k">Crecimiento por operación</div>
+          <div class="k">Por operación</div>
           <div class="v num" id="statFactor">0<small>%</small></div>
         </div>
       </div>
@@ -397,7 +424,13 @@
       <div class="scroll">
         <table>
           <thead>
-            <tr><th>#</th><th>Capital</th><th>Aporte</th><th>Rendimiento</th><th>Disponible</th></tr>
+            <tr>
+              <th class="c-op">Op</th>
+              <th class="c-cap">Capital</th>
+              <th class="c-ap">Aporte</th>
+              <th class="c-re">Rendim.</th>
+              <th class="c-di">Disponible</th>
+            </tr>
           </thead>
           <tbody id="tbody"></tbody>
         </table>
@@ -405,8 +438,8 @@
     </section>
 
     <p class="foot">
-      Cada operación reinvierte el rendimiento · <b>Disponible = Capital × % de retiro</b><br>
-      Herramienta personal de proyección. Los resultados son estimados.
+      Toca una fila para ver las cifras completas<br>
+      Cada operación reinvierte el rendimiento · <b>Disponible = Capital × % de retiro</b>
     </p>
 
    </div>
@@ -423,6 +456,23 @@
   var PIN = "3108";
   var fmtCO = new Intl.NumberFormat('es-CO',{maximumFractionDigits:0});
   function money(n){ return "$" + fmtCO.format(Math.round(n)); }
+  /* cifra corta para pantallas pequeñas: 2,80M · 841K */
+  function comp(n){
+    n = Math.round(n);
+    if(n >= 1e9) return "$"+(n/1e9).toFixed(2).replace('.',',')+"MM";
+    if(n >= 1e6){
+      var d = n >= 100e6 ? 1 : 2;
+      return "$"+(n/1e6).toFixed(d).replace('.',',')+"M";
+    }
+    if(n >= 1e4) return "$"+Math.round(n/1e3)+"K";
+    if(n >= 1e3) return "$"+(n/1e3).toFixed(1).replace('.',',')+"K";
+    return "$"+fmtCO.format(n);
+  }
+  /* muestra corta en móvil, completa en pantallas grandes */
+  function dual(n, prefix){
+    prefix = prefix || "";
+    return '<span class="cmp">'+prefix+comp(n)+'</span><span class="full">'+prefix+money(n)+'</span>';
+  }
   function shortMoney(n){
     if(n>=1e9) return "$"+(n/1e9).toFixed(n>=1e10?0:1).replace('.',',')+"MM";
     if(n>=1e6) return "$"+(n/1e6).toFixed(n>=1e7?0:1).replace('.',',')+"M";
@@ -518,7 +568,7 @@
     $("goalTop").textContent = money(c.goal);
     $("barFill").style.width = c.pct.toFixed(2)+"%";
     $("statOps").textContent = c.ops;
-    $("statDays").innerHTML = c.days + ' <small>de '+c.perDay+'/día</small>';
+    $("statDays").innerHTML = c.days + '<small>'+c.perDay+' por día</small>';
     var g = (c.factor-1)*100;
     $("statFactor").innerHTML = (g>0?'+':'') + g.toFixed(1).replace('.',',') + '<small>%</small>';
 
@@ -537,14 +587,26 @@
         tb.appendChild(sep);
       }
       var tr = document.createElement("tr");
-      if(r.reached) tr.className = "goal";
+      tr.className = "op" + (r.reached ? " goal" : "");
+      tr.setAttribute("tabindex","0");
       tr.innerHTML =
-        '<td data-l="#">'+(r.reached?'Meta':'Op '+r.n)+'</td>'+
-        '<td data-l="Capital">'+money(r.cap)+(r.reached?'<span class="flag">🎯</span>':'')+'</td>'+
-        '<td class="aporte" data-l="Aporte">'+money(r.aporte)+'</td>'+
-        '<td class="rend" data-l="Rendimiento">+'+money(r.rend)+'</td>'+
-        '<td class="disp" data-l="Disponible">'+money(r.disp)+'</td>';
+        '<td>'+(r.reached ? 'Meta <span class="flag">🎯</span>' : r.n)+'</td>'+
+        '<td>'+dual(r.cap)+'</td>'+
+        '<td class="aporte">'+dual(r.aporte)+'</td>'+
+        '<td class="rend">'+dual(r.rend,'+')+'</td>'+
+        '<td class="disp">'+dual(r.disp)+'</td>';
       tb.appendChild(tr);
+
+      var det = document.createElement("tr");
+      det.className = "det";
+      det.innerHTML =
+        '<td colspan="5"><div class="det-in">'+
+          '<div class="di"><div class="dk">Capital</div><div class="dv">'+money(r.cap)+'</div></div>'+
+          '<div class="di"><div class="dk">Aporte</div><div class="dv m">'+money(r.aporte)+'</div></div>'+
+          '<div class="di"><div class="dk">Rendimiento</div><div class="dv g">+'+money(r.rend)+'</div></div>'+
+          '<div class="di"><div class="dk">Disponible</div><div class="dv o">'+money(r.disp)+'</div></div>'+
+        '</div></td>';
+      tb.appendChild(det);
     });
 
     drawCurve(c);
@@ -591,6 +653,22 @@
     $(id).addEventListener("input", render);
     $(id).addEventListener("change", persist);
   });
+  /* abrir / cerrar el detalle de una operación */
+  $("tbody").addEventListener("click", function(e){
+    var tr = e.target.closest("tr.op");
+    if(!tr) return;
+    var wasOpen = tr.classList.contains("open");
+    Array.prototype.forEach.call(this.querySelectorAll("tr.op.open"), function(o){ o.classList.remove("open"); });
+    if(!wasOpen) tr.classList.add("open");
+  });
+  $("tbody").addEventListener("keydown", function(e){
+    if(e.key!=="Enter" && e.key!==" ") return;
+    var tr = e.target.closest("tr.op");
+    if(!tr) return;
+    e.preventDefault();
+    tr.classList.toggle("open");
+  });
+
   $("cfgToggle").addEventListener("click", function(){
     var open = $("config").classList.toggle("open");
     this.setAttribute("aria-expanded", open);
