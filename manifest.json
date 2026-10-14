@@ -1,7 +1,7 @@
 {
   "name": "Plan de Capital",
   "short_name": "Capital",
-  "description": "Proyecta cuántas operaciones necesitas para llegar a tu meta y en qué porcentaje vas.",
+  "description": "Define meta y plazo: calcula cuántas entradas y a qué porcentaje necesitas hoy, y registra cada día.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
